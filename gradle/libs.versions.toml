@@ -1,0 +1,15 @@
+[versions]
+ktor = "3.4.2"
+kotlin = "2.3.20"
+antlr = "1.0.10"
+kotlinx-serialization = "1.11.0"
+
+[libraries]
+ktor-network = { group = "io.ktor", name = "ktor-network", version.ref = "ktor" }
+antlr-runtime = { group = "com.strumenta", name = "antlr-kotlin-runtime", version.ref = "antlr" }
+kotlinx-serialization-cbor = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-cbor", version.ref = "kotlinx-serialization"}
+
+[plugins]
+antlr-kotlin = { id = "com.strumenta.antlr-kotlin", version.ref = "antlr" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
