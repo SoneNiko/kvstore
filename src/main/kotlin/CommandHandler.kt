@@ -48,8 +48,7 @@ class CommandHandler(
         }
     }
 
-    suspend fun assignDatastore(storeName: String?) = mutex.withLock {
-
+    suspend fun assignDatastore(storeName: String?): Unit = mutex.withLock {
         val value = if (storeName != null) {
             Main.mutex.withLock {
                 Main.storeList[storeName] ?: DataStore(DatastoreName(storeName))
@@ -58,19 +57,12 @@ class CommandHandler(
             null
         }
 
-        if (dataStore != null) {
-            if (value == null) {
-
-            } else {
-                if (value.name == dataStore!!.name) {
-                    transmit("Already connected to datastore. DISCONNECT to force reload")
-                    return
-                }
+        if (dataStore != null && value != null) {
+            if (value.name == dataStore!!.name) {
+                transmit("Already connected to datastore. DISCONNECT to force reload")
+                return
             }
-
             dataStore?.let { transmit("Disconnecting from datastore ${it.name}") }
-        } else {
-
         }
         value?.let { transmit("Connecting to datastore ${value.name}") }
 

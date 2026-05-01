@@ -90,6 +90,10 @@ class DataStore(
 
     @OptIn(ExperimentalSerializationApi::class)
     suspend fun restoreFromWal() = storageBackendMutex.withLock {
+        if (!storageBackend.exists()) {
+            return@withLock
+        }
+
         val reader = storageBackend.inputStream()
 
         reader.use {
@@ -163,7 +167,7 @@ class DataStore(
 
         val outStream = storageBackend.outputStream()
 
-        outStream.use { it ->
+        outStream.use {
             for (registrations in internalStore) {
                 val tx = SetTransaction(registrations.key, registrations.value)
 
